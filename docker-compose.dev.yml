@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  backend:
+    build: 
+      context: ./apps/backend
+      dockerfile: Dockerfile
+      args:
+        - ENV=development
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    volumes:
+      - ./apps/backend:/app
+    depends_on:
+      - postgres
+      - redis
+
+  web:
+    build: 
+      context: ./apps/web
+      dockerfile: Dockerfile
+      args:
+        - ENV=development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+
+  docs:
+    build: 
+      context: ./apps/docs
+      dockerfile: Dockerfile
+      args:
+        - ENV=development
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/docs:/app
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: senera
+      POSTGRES_USER: senera
+      POSTGRES_PASSWORD: senera_dev_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6
+
+volumes:
+  postgres_data:
