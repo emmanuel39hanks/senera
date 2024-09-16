@@ -1,6 +1,6 @@
 # Senera - Feature Flag Management Platform
 
-Senera is a powerful feature flag management platform that enables developers to toggle features, run experiments, and manage deployments with ease.
+Senera is a feature flag management platform that enables developers to toggle features, run experiments, and manage deployments with ease.
 
 ## Tech Stack
 
